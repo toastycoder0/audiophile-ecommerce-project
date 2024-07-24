@@ -1,0 +1,51 @@
+---
+const name = 'Frontend Mentor | Audiophile Ecommerce'
+const description = 'This is a solution to the audiophile ecommerce challenge on Frontend Mentor'
+const image = 'preview.webp'
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width' />
+    <link rel='icon' type='image/png' sizes='32x32' href='favicon.png' />
+    <title>{name}</title>
+    <meta name='description' content={description} />
+    <meta property='og:type' content='website' />
+    <meta property='og:title' content={name} />
+    <meta property='og:image' content={image} />
+    <meta property='og:description' content={description} />
+    <meta name='twitter:card' content='summary' />
+    <meta name='twitter:title' content={name} />
+    <meta name='twitter:description' content={description} />
+    <meta name='twitter:image' content={image} />
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap'
+      rel='stylesheet'
+    />
+  </head>
+  <body>
+    <main>
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style is:global>
+  body {
+    font-family: 'Manrope', sans-serif;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  a:focus,
+  button:focus,
+  input:focus,
+  textarea:focus {
+    outline: none;
+  }
+</style>
