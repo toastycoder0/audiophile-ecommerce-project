@@ -1,0 +1,27 @@
+---
+import Button from '@/components/Button.astro'
+---
+
+<header
+  class='w-full relative bg-black px-6 h-[37.5rem] after:top-0 after:left-1/2 after:-translate-x-1/2 after:w-full after:h-full after:absolute after:bg-contain after:bg-center after:bg-no-repeat after:bg-[url(/assets/home/mobile/hero.webp)] md:px-10 md:h-[45.563rem] md:after:bg-[url(/assets/home/tablet/hero.webp)] lg:after:bg-[url(/assets/home/desktop/hero.webp)]'
+>
+  <div
+    class='w-full max-w-container h-full mx-auto relative z-[1] pt-[5.625rem] flex flex-col lg:pt-24'
+  >
+    <section
+      class='m-auto max-w-72 flex flex-col items-center text-center md:max-w-[22rem] lg:text-left lg:items-start lg:ml-0 lg:mr-auto'
+    >
+      <span class='text-white/45 [letter-spacing:0.625rem] text-sm uppercase'>New product</span>
+      <h1
+        class='mt-4 mb-6 text-white font-bold text-4xl uppercase md:text-[3.5rem] md:leading-[3.6rem] md:my-6'
+      >
+        XX99 Mark II HeadphoneS
+      </h1>
+      <p class='font-medium text-[0.938rem] text-white/75 mb-[1.875rem] md:mb-10'>
+        Experience natural, lifelike audio and exceptional build quality made for the passionate
+        music enthusiast.
+      </p>
+      <Button href='/product/xx99-mark-two-headphones'>See product</Button>
+    </section>
+  </div>
+</header>
