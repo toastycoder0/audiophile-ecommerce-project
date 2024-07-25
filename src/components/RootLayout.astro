@@ -1,6 +1,4 @@
 ---
-import Navbar from '@/components/Navbar.astro'
-
 const name = 'Frontend Mentor | Audiophile Ecommerce'
 const description = 'This is a solution to the audiophile ecommerce challenge on Frontend Mentor'
 const image = 'preview.webp'
@@ -28,8 +26,7 @@ const image = 'preview.webp'
       rel='stylesheet'
     />
   </head>
-  <body class='pt-[5.625rem] lg:pt-24'>
-    <Navbar />
+  <body>
     <slot />
   </body>
 </html>
@@ -37,6 +34,7 @@ const image = 'preview.webp'
 <style is:global>
   body {
     font-family: 'Manrope', sans-serif;
+    overscroll-behavior: none;
   }
 
   a,
