@@ -2,7 +2,15 @@
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
-    extend: {}
-  },
-  plugins: []
+    extend: {
+      colors: {
+        dark: '#000000',
+        black: '#101010',
+        white: '#ffffff'
+      },
+      maxWidth: {
+        container: '1110px'
+      }
+    }
+  }
 }
