@@ -1,17 +1,10 @@
 ---
-import clsx from 'clsx'
 import Menu from '@/components/icons/Menu.astro'
 import Logo from '@/components/icons/Logo.astro'
 import Cart from '@/components/icons/Cart.astro'
-
-interface Props {
-  background?: string
-}
-
-const { background = 'bg-dark' } = Astro.props
 ---
 
-<nav class={clsx('fixed z-10 top-0 left-0 w-full h-[5.625rem] px-6 md:px-10 lg:h-24', background)}>
+<nav class='bg-black fixed z-10 top-0 left-0 w-full h-[5.625rem] px-6 md:px-10 lg:h-24'>
   <div class='w-full max-w-container mx-auto h-full flex my-auto items-center md:relative'>
     <button class='mr-[2.625rem] lg:hidden'>
       <Menu />
