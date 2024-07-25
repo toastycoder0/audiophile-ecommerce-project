@@ -6,7 +6,9 @@ export default {
       colors: {
         dark: '#000000',
         black: '#101010',
-        white: '#ffffff'
+        white: '#FFFFFF',
+        orange: '#D87D4A',
+        'low-orange': '#FBAF85'
       },
       maxWidth: {
         container: '1110px'
