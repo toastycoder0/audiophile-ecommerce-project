@@ -1,3 +1,26 @@
-<section class='my-[7.5rem] md:my-24 lg:mt-[10.5rem] lg:mb-[12.5rem]'>
-  <h2>Featured products</h2>
+---
+import Button from '@/components/Button.astro'
+---
+
+<section
+  class='my-[7.5rem] flex flex-col gap-6 md:gap-8 md:my-24 lg:gap-12 lg:mt-[10.5rem] lg:mb-[12.5rem]'
+>
+  <div class='md:grid md:grid-cols-2 md:gap-2.5'>
+    <picture>
+      <source srcset='/assets/home/desktop/earphones-yx1.webp' media='(min-width: 1024px)' />
+      <source srcset='/assets/home/tablet/earphones-yx1.webp' media='(min-width: 540px)' />
+      <img
+        class='object-cover rounded-lg md:h-full'
+        src='/assets/home/mobile/earphones-yx1.webp'
+        alt='Yx1 earphones'
+      />
+    </picture>
+
+    <div
+      class='bg-[#F1F1F1] mt-6 rounded-lg flex flex-col gap-8 justify-center w-full px-6 py-10 md:mt-0 md:h-[20rem] xl:pl-24'
+    >
+      <h3 class='text-[1.75rem] font-bold uppercase tracking-[2px]'>Yx1 Earphones</h3>
+      <Button href='/product/yx1-earphones' variant='outline'>See product</Button>
+    </div>
+  </div>
 </section>
