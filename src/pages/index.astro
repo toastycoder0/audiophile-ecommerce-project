@@ -2,9 +2,14 @@
 import RootLayout from '@/components/RootLayout.astro'
 import Navbar from '@/components/Navbar.astro'
 import Hero from '@/sections/home/Hero.astro'
+import HomeMain from '@/sections/home/HomeMain.astro'
+import AudioGear from '@/sections/shared/AudioGear.astro'
 ---
 
 <RootLayout>
   <Navbar />
   <Hero />
+  <HomeMain>
+    <AudioGear />
+  </HomeMain>
 </RootLayout>
