@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Headphones",
+    "slug": "headphones",
+    "image": "/assets/shared/category-thumbnail-headphones.webp"
+  },
+  {
+    "name": "Speakers",
+    "slug": "speakers",
+    "image": "/assets/shared/category-thumbnail-speakers.webp"
+  },
+  {
+    "name": "Earphones",
+    "slug": "earphones",
+    "image": "/assets/shared/category-thumbnail-earphones.webp"
+  }
+]
