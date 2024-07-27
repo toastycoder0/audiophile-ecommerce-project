@@ -4,7 +4,7 @@ import ArrowRight from '@/components/icons/ArrowRight.astro'
 
 interface Props {
   id?: string
-  variant?: 'default' | 'outline' | 'text'
+  variant?: 'default' | 'outline' | 'text' | 'dark'
   href?: string
   class?: string
 }
@@ -14,7 +14,8 @@ const styles = {
     'px-[1.875rem] py-[0.938rem] border-[1px] border-orange bg-orange text-white hover:border-low-orange hover:bg-low-orange focus-visible:bg-low-orange focus-visible:border-low-orange',
   outline:
     'px-[1.875rem] py-[0.938rem] border-[1px] border-dark text-dark hover:bg-black hover:text-white focus-visible:bg-black focus-visible:text-white',
-  text: 'text-[#808080] hover:text-orange focus-visible:text-orange'
+  text: 'text-[#808080] hover:text-orange focus-visible:text-orange',
+  dark: 'px-[1.875rem] py-[0.938rem] border-[1px] bg-dark text-white border-dark hover:bg-gray hover:border-gray focus-visible:bg-gray focus-visible:border-gray'
 }
 
 const { variant = 'default', href, class: className, id } = Astro.props
