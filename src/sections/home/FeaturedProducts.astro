@@ -2,10 +2,40 @@
 import Button from '@/components/Button.astro'
 ---
 
-<section
+<div
   class='my-[7.5rem] flex flex-col gap-6 md:gap-8 md:my-24 lg:gap-12 lg:mt-[10.5rem] lg:mb-[12.5rem]'
 >
-  <div class='md:grid md:grid-cols-2 md:gap-2.5'>
+  <section
+    class='w-full h-[37.5rem] flex rounded-lg pattern relative overflow-hidden bg-orange px-6 pb-[3.438rem] md:pb-16 md:h-[45rem] lg:h-[35rem] lg:py-0 lg:pl-0 lg:pr-[5.938rem]'
+  >
+    <img
+      class='absolute h-[12.938rem] left-1/2 -translate-x-1/2 top-[3.438rem] md:top-[3.25rem] md:h-[14.813rem] lg:h-[22rem] lg:-translate-x-0 lg:top-1/2 lg:-translate-y-1/2 lg:left-[7.343rem] xl:-translate-y-0 xl:top-24 xl:h-[30.813rem]'
+      src='/assets/home/speaker-zx9.webp'
+      alt='Zx9 speaker'
+    />
+    <div
+      class='mt-auto flex flex-col items-center text-center mx-auto lg:my-auto lg:ml-auto lg:mr-0 lg:items-start lg:text-left lg:w-[21.813rem]'
+    >
+      <h3 class='text-white uppercase text-4xl font-bold md:text-[3.5rem] md:leading-[3.625rem]'>
+        Zx9<br />Speaker
+      </h3>
+      <p
+        class='max-w-[17.5rem] w-full text-[0.938rem] font-medium my-6 text-white/75 md:mt-6 md:mb-10 md:max-w-80'
+      >
+        Upgrade to premium speakers that are phenomenally built to deliver truly remarkable sound.
+      </p>
+      <Button href='/product/zx9-speaker' variant='dark'>See product</Button>
+    </div>
+  </section>
+
+  <section
+    class='w-full flex flex-col bg-cover bg-center justify-center gap-8 rounded-lg px-6 h-[20rem] bg-[url(/assets/home/mobile/speaker-zx7.webp)] md:bg-[url(/assets/home/tablet/speaker-zx7.webp)] md:px-10 lg:bg-[url(/assets/home/desktop/speaker-zx7.webp)] lg:px-24'
+  >
+    <h3 class='text-[1.75rem] font-bold uppercase tracking-[2px]'>Zx7 Speaker</h3>
+    <Button href='/product/zx7-speaker' variant='outline'>See product</Button>
+  </section>
+
+  <section class='md:grid md:grid-cols-2 md:gap-2.5'>
     <picture>
       <source srcset='/assets/home/desktop/earphones-yx1.webp' media='(min-width: 1024px)' />
       <source srcset='/assets/home/tablet/earphones-yx1.webp' media='(min-width: 540px)' />
@@ -15,12 +45,33 @@ import Button from '@/components/Button.astro'
         alt='Yx1 earphones'
       />
     </picture>
-
     <div
       class='bg-[#F1F1F1] mt-6 rounded-lg flex flex-col gap-8 justify-center w-full px-6 py-10 md:mt-0 md:h-[20rem] xl:pl-24'
     >
       <h3 class='text-[1.75rem] font-bold uppercase tracking-[2px]'>Yx1 Earphones</h3>
       <Button href='/product/yx1-earphones' variant='outline'>See product</Button>
     </div>
-  </div>
-</section>
+  </section>
+</div>
+
+<style>
+  .pattern {
+    background-image: url(/assets/home/pattern-circles.svg);
+    background-repeat: no-repeat;
+    background-size: 34.875rem;
+    background-position: center calc(100% - 10.188rem);
+  }
+
+  @media screen and (min-width: 768px) {
+    .pattern {
+      background-size: 59rem;
+      background-position: center calc(100% - 4rem);
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .pattern {
+      background-position: calc(100% - 19.688rem) calc(100% + 21.75rem);
+    }
+  }
+</style>
