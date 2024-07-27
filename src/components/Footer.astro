@@ -1,0 +1,69 @@
+---
+import Logo from '@/components/icons/Logo.astro'
+import Facebook from '@/components/icons/Facebook.astro'
+import Twitter from '@/components/icons/Twitter.astro'
+import Instagram from '@/components/icons/Instagram.astro'
+import { links } from '@/constants/links'
+---
+
+<footer class='bg-dark pb-[2.375rem] flex px-6 md:pb-[2.875rem] md:px-10'>
+  <div class='w-full flex flex-col relative max-w-container mx-auto'>
+    <hr class='w-[6.25rem] h-1 bg-orange mx-auto mb-12 md:ml-0 md:mb-14 lg:mb-[4.375rem]' />
+
+    <section
+      class='flex flex-col items-center gap-12 md:gap-8 md:items-start lg:flex-row lg:justify-between lg:items-center'
+    >
+      <a href='/'>
+        <Logo />
+      </a>
+
+      <div class='flex flex-col gap-4 text-center md:flex-row'>
+        {
+          links.map(({ name, href }) => (
+            <a
+              class='text-[0.813rem] text-white font-bold uppercase duration-200 hover:text-orange focus-visible:text-orange'
+              href={href}
+            >
+              {name}
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <p
+      class='my-12 text-white/50 text-[0.938rem] font-medium text-center md:text-left md:mt-8 md:mb-20 lg:mt-9 lg:mb-14 lg:mr-auto lg:w-[33.75rem]'
+    >
+      Audiophile is an all in one stop to fulfill your audio needs. We're a small team of music
+      lovers and sound specialists who are devoted to helping you get the most out of personal
+      audio. Come and visit our demo facility - we’re open 7 days a week.
+    </p>
+
+    <section class='flex flex-col items-center gap-12 md:flex-row md:justify-between'>
+      <p class='text-white/50 text-[0.938rem] font-medium text-center'>
+        Copyright 2021. All Rights Reserved
+      </p>
+
+      <div class='flex items-center gap-4 text-white lg:absolute lg:right-0 lg:bottom-16'>
+        <a
+          class='duration-200 hover:text-orange focus-visible:text-orange'
+          href='https://www.facebook.com'
+        >
+          <Facebook />
+        </a>
+        <a
+          class='duration-200 hover:text-orange focus-visible:text-orange'
+          href='https://twitter.com'
+        >
+          <Twitter />
+        </a>
+        <a
+          class='duration-200 hover:text-orange focus-visible:text-orange'
+          href='https://www.instagram.com'
+        >
+          <Instagram />
+        </a>
+      </div>
+    </section>
+  </div>
+</footer>
