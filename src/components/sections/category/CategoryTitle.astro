@@ -1,0 +1,15 @@
+---
+interface Props {
+  name: string
+}
+
+const { name } = Astro.props
+---
+
+<header class='bg-black text-white text-center pb-8 pt-[5.625rem] px-6 md:pb-24 md:px-10 lg:pt-24'>
+  <h1
+    class='uppercase font-bold text-[1.75rem] mt-8 md:text-[2.5rem] md:mt-[6.563rem] lg:mt-[6.125rem]'
+  >
+    {name}
+  </h1>
+</header>
