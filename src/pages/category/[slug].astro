@@ -1,0 +1,39 @@
+---
+import RootLayout from '@/components/layouts/RootLayout.astro'
+import Navbar from '@/components/shared/Navbar.astro'
+import CategoryTitle from '@/components/sections/category/CategoryTitle.astro'
+import CategoryProduct from '@/components/sections/category/CategoryProduct.astro'
+import Categories from '@/components/sections/shared/Categories.astro'
+import AudioGear from '@/components/sections/shared/AudioGear.astro'
+import Footer from '@/components/sections/shared/Footer.astro'
+import api from '@/server/api'
+import categories from '@/constants/categories.json'
+
+export function getStaticPaths() {
+  return categories.map(({ slug }) => ({ params: { slug } }))
+}
+
+const { slug } = Astro.params
+
+const category = categories.find(({ slug: categorySlug }) => categorySlug === slug)
+
+if (!category) return Astro.redirect('/404')
+
+const { name } = category
+
+const { products } = await api.products(slug)
+---
+
+<RootLayout title={name}>
+  <Navbar showLine />
+  <CategoryTitle name={name} />
+  <main class='px-6 mt-16 mb-[7.5rem] md:px-10 md:mt-[7.5rem] lg:my-[10rem]'>
+    <div class='w-full flex flex-col gap-[7.5rem] max-w-container mx-auto lg:gap-[10rem]'>
+      {products.map((product, i) => <CategoryProduct {...product} isOdd={i % 2 !== 0} />)}
+
+      <Categories />
+      <AudioGear />
+    </div>
+  </main>
+  <Footer />
+</RootLayout>
