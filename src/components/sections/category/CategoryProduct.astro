@@ -7,7 +7,7 @@ interface Props extends Product {
   isOdd: boolean
 }
 
-const { name, description, new: isNew, categoryImage, isOdd } = Astro.props
+const { name, description, new: isNew, categoryImage, isOdd, slug } = Astro.props
 ---
 
 <section
@@ -33,6 +33,6 @@ const { name, description, new: isNew, categoryImage, isOdd } = Astro.props
     <p class='text-[0.938rem] text-dark/50 font-medium w-full max-w-[35.75rem]'>
       {description}
     </p>
-    <Button href={`/product/${name}`}>See product</Button>
+    <Button href={`/product/${slug}`}>See product</Button>
   </div>
 </section>
