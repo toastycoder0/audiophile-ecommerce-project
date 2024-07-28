@@ -1,0 +1,38 @@
+---
+import type { Product } from '@/types/product'
+import clsx from 'clsx'
+import Button from '@/components/shared/Button.astro'
+
+interface Props extends Product {
+  isOdd: boolean
+}
+
+const { name, description, new: isNew, categoryImage, isOdd } = Astro.props
+---
+
+<section
+  class={clsx(
+    'flex flex-col gap-8 lg:gap-32 lg:items-center',
+    isOdd ? 'lg:flex-row-reverse' : 'lg:flex-row'
+  )}
+>
+  <picture>
+    <source srcset={categoryImage.desktop} media='(min-width: 1024px)' />
+    <source srcset={categoryImage.tablet} media='(min-width: 540px)' />
+    <img
+      class='w-full h-[22rem] object-cover lg:h-[35rem] xl:min-w-[33.75rem]'
+      src={categoryImage.mobile}
+      alt={`${name} product`}
+    />
+  </picture>
+  <div class='flex flex-col gap-6 items-center text-center lg:grow lg:items-start lg:text-start'>
+    {isNew && <span class='text-orange text-sm uppercase tracking-[0.625rem]'>New product</span>}
+    <h2 class='font-bold text-[1.75rem] uppercase w-full max-w-52 md:text-[2.5rem] md:max-w-96'>
+      {name}
+    </h2>
+    <p class='text-[0.938rem] text-dark/50 font-medium w-full max-w-[35.75rem]'>
+      {description}
+    </p>
+    <Button href={`/product/${name}`}>See product</Button>
+  </div>
+</section>
