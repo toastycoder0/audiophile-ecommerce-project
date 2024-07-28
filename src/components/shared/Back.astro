@@ -1,0 +1,14 @@
+<button
+  id='back-btn'
+  class='text-[0.938rem] text-dark/50 duration-200 font-medium hover:text-orange focus-visible:text-orange'
+>
+  Go back
+</button>
+
+<script>
+  import { $ } from '@/utils/dom'
+
+  const backBtn = $('#back-btn') as HTMLButtonElement
+
+  backBtn.addEventListener('click', () => history.back())
+</script>
