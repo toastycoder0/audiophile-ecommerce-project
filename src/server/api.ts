@@ -6,7 +6,10 @@ const request = async <T>(path: string) => {
   return res.json() as Promise<T>
 }
 
-const products = async () => await request<{ products: Product[] }>('/product')
+const products = async (category: string) => {
+  return await request<{ products: Product[] }>(`/product?category=${category}`)
+}
+
 const product = async (slug: string) => await request<{ product: Product }>(`/product/${slug}`)
 
 export default { products, product }
