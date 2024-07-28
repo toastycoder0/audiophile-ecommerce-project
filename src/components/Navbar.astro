@@ -1,14 +1,22 @@
 ---
+import Categories from '@/sections/shared/Categories.astro'
+import Button from '@/components/Button.astro'
 import Menu from '@/components/icons/Menu.astro'
 import Logo from '@/components/icons/Logo.astro'
 import Cart from '@/components/icons/Cart.astro'
 
 import { links } from '@/constants/links'
+
+interface Props {
+  showLine?: boolean
+}
+
+const { showLine = false } = Astro.props
 ---
 
 <nav class='bg-black fixed z-10 top-0 left-0 w-full h-[5.625rem] px-6 md:px-10 lg:h-24'>
   <div class='w-full max-w-container mx-auto h-full flex my-auto items-center md:relative'>
-    <button class='mr-[2.625rem] lg:hidden'>
+    <button id='menu-btn' class='mr-[2.625rem] lg:hidden'>
       <Menu />
     </button>
 
@@ -32,10 +40,107 @@ import { links } from '@/constants/links'
       }
     </ul>
 
-    <button class='ml-auto'>
+    <button id='cart-btn' class='ml-auto'>
       <Cart />
     </button>
 
-    <hr class='w-full absolute bottom-0 left-0 bg-white/10 border-none h-px' />
+    {showLine && <hr class='w-full absolute bottom-0 left-0 bg-white/10 border-none h-px' />}
   </div>
 </nav>
+
+<div
+  id='menu-wrapper'
+  class='w-full h-full fixed top-0 left-0 bg-dark/40 z-[2] opacity-0 invisible duration-200 pt-[5.625rem] md:pt-24'
+>
+  <div class='w-full max-h-full overflow-y-auto'>
+    <div class='px-6 py-8 rounded-b-lg bg-white'>
+      <Categories />
+    </div>
+  </div>
+</div>
+
+<div
+  id='cart-wrapper'
+  class='w-full h-full fixed flex top-0 left-0 bg-dark/40 px-6 z-[2] opacity-0 invisible duration-200 pt-[5.625rem] md:px-10 md:pt-24'
+>
+  <div class='w-full max-w-container mx-auto flex pt-6 md:pt-8'>
+    <div
+      id='cart-container'
+      class='w-full max-w-[23.563rem] h-[30.5rem] ml-auto flex flex-col gap-8 bg-white rounded-lg py-8 px-7 md:px-8'
+    >
+      <section class='flex items-center justify-between'>
+        <h3 class='text-lg font-bold uppercase'>cart (0)</h3>
+        <button
+          class='text-[0.938rem] underline text-dark/50 hover:text-orange focus-visible:text-orange'
+        >
+          Remove all
+        </button>
+      </section>
+
+      <section class='grow flex flex-col'>
+        <p class='text-[0.938rem] m-auto text-dark/40'>There are no items in your cart.</p>
+      </section>
+
+      <section>
+        <div class='flex items-center justify-between mb-6'>
+          <h3 class='text-[0.938rem] text-dark/50 font-medium uppercase'>Total</h3>
+          <p class='font-bold text-lg'>$0</p>
+        </div>
+        <Button href='/checkout' full>Checkout</Button>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { $ } from '@/utils/dom'
+
+  const menuBtn = $('#menu-btn') as HTMLButtonElement
+  const cartBtn = $('#cart-btn') as HTMLButtonElement
+
+  const menuWrapper = $('#menu-wrapper') as HTMLDivElement
+  const cartWrapper = $('#cart-wrapper') as HTMLDivElement
+
+  const cartContainer = $('#cart-container') as HTMLDivElement
+
+  let isMenuClosed = menuWrapper.classList.contains('opacity-0')
+  let isCartClosed = cartWrapper.classList.contains('opacity-0')
+
+  const toggleMenu = () => {
+    if (!isCartClosed) toggleCart()
+
+    if (isMenuClosed) {
+      menuWrapper.classList.remove('opacity-0', 'invisible')
+      document.body.classList.add('overflow-hidden')
+      isMenuClosed = false
+      return
+    }
+
+    menuWrapper.classList.add('opacity-0', 'invisible')
+    document.body.classList.remove('overflow-hidden')
+    isMenuClosed = true
+  }
+
+  const toggleCart = () => {
+    if (!isMenuClosed) toggleMenu()
+
+    if (isCartClosed) {
+      cartWrapper.classList.remove('opacity-0', 'invisible')
+      document.body.classList.add('overflow-hidden')
+      isCartClosed = false
+      return
+    }
+
+    cartWrapper.classList.add('opacity-0', 'invisible')
+    document.body.classList.remove('overflow-hidden')
+    isCartClosed = true
+  }
+
+  menuBtn.addEventListener('click', toggleMenu)
+  cartBtn.addEventListener('click', toggleCart)
+
+  menuWrapper.addEventListener('click', toggleMenu)
+  cartWrapper.addEventListener('click', toggleCart)
+
+  cartContainer.addEventListener('click', (e) => e.stopPropagation())
+</script>
