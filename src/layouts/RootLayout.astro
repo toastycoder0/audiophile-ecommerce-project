@@ -1,7 +1,16 @@
 ---
-const name = 'Frontend Mentor | Audiophile Ecommerce'
-const description = 'This is a solution to the audiophile ecommerce challenge on Frontend Mentor'
-const image = 'preview.webp'
+interface Props {
+  title?: string
+  description?: string
+  otg?: string
+}
+
+const {
+  title = 'Audiophile Ecommerce',
+  description = 'This is a solution to the audiophile ecommerce challenge on Frontend Mentor',
+  otg = 'preview.webp'
+} = Astro.props
+const name = `Frontend Mentor | ${title}`
 ---
 
 <html lang='en'>
@@ -13,12 +22,12 @@ const image = 'preview.webp'
     <meta name='description' content={description} />
     <meta property='og:type' content='website' />
     <meta property='og:title' content={name} />
-    <meta property='og:image' content={image} />
+    <meta property='og:image' content={otg} />
     <meta property='og:description' content={description} />
     <meta name='twitter:card' content='summary' />
     <meta name='twitter:title' content={name} />
     <meta name='twitter:description' content={description} />
-    <meta name='twitter:image' content={image} />
+    <meta name='twitter:image' content={otg} />
     <link rel='preconnect' href='https://fonts.googleapis.com' />
     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
     <link
@@ -26,7 +35,7 @@ const image = 'preview.webp'
       rel='stylesheet'
     />
   </head>
-  <body>
+  <body class='min-h-svh flex flex-col'>
     <slot />
   </body>
 </html>
