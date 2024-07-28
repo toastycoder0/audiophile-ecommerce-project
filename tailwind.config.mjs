@@ -9,7 +9,8 @@ export default {
         white: '#FFFFFF',
         orange: '#D87D4A',
         'low-orange': '#FBAF85',
-        gray: '#4C4C4C'
+        gray: '#4C4C4C',
+        'low-gray': '#F1F1F1'
       },
       maxWidth: {
         container: '1110px'
