@@ -6,8 +6,10 @@ const request = async <T>(path: string) => {
   return res.json() as Promise<T>
 }
 
-const products = async (category: string) => {
-  return await request<{ products: Product[] }>(`/product?category=${category}`)
+const products = async (category?: string) => {
+  let params = ''
+  if (category) params = `?category=${category}`
+  return await request<{ products: Product[] }>(`/product${params}`)
 }
 
 const product = async (slug: string) => await request<{ product: Product }>(`/product/${slug}`)
