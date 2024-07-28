@@ -7,6 +7,7 @@ interface Props {
   variant?: 'default' | 'outline' | 'text' | 'dark'
   href?: string
   class?: string
+  full?: boolean
 }
 
 const styles = {
@@ -18,14 +19,15 @@ const styles = {
   dark: 'px-[1.875rem] py-[0.938rem] border-[1px] bg-dark text-white border-dark hover:bg-gray hover:border-gray focus-visible:bg-gray focus-visible:border-gray'
 }
 
-const { variant = 'default', href, class: className, id } = Astro.props
+const { variant = 'default', href, class: className, id, full } = Astro.props
 
 const Tag = href ? 'a' : 'button'
 
 const props = {
   id,
   class: clsx(
-    'text-sm uppercase w-fit flex items-center gap-3 font-bold tracking-[1px] duration-200 ',
+    'text-sm uppercase text-center flex items-center justify-center gap-3 font-bold tracking-[1px] duration-200',
+    full ? 'w-full' : 'w-fit',
     styles[variant],
     className
   ),
