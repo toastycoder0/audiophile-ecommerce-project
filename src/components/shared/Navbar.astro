@@ -69,23 +69,25 @@ const { showLine = false } = Astro.props
       class='w-full max-w-[23.563rem] h-[30.5rem] ml-auto flex flex-col gap-8 bg-white rounded-lg py-8 px-7 md:px-8'
     >
       <section class='flex items-center justify-between'>
-        <h3 class='text-lg font-bold uppercase'>cart (0)</h3>
+        <h3 id='cart-size' class='text-lg font-bold uppercase'>Cart (0)</h3>
         <button
+          id='cart-clear-btn'
           class='text-[0.938rem] underline text-dark/50 hover:text-orange focus-visible:text-orange'
         >
           Remove all
         </button>
       </section>
 
-      <section class='grow flex flex-col'>
+      <section id='cart-items' class='grow flex flex-col'>
         <p class='text-[0.938rem] m-auto text-dark/40'>There are no items in your cart.</p>
       </section>
 
       <section>
         <div class='flex items-center justify-between mb-6'>
           <h3 class='text-[0.938rem] text-dark/50 font-medium uppercase'>Total</h3>
-          <p class='font-bold text-lg'>$0</p>
+          <p id='cart-total' class='font-bold text-lg'>$0</p>
         </div>
+
         <Button href='/checkout' full>Checkout</Button>
       </section>
     </div>
@@ -94,6 +96,8 @@ const { showLine = false } = Astro.props
 
 <script>
   import { $ } from '@/utils/dom'
+  import { formatPrice } from '@/utils/text'
+  import store from '@/store/cartStore'
 
   const menuBtn = $('#menu-btn') as HTMLButtonElement
   const cartBtn = $('#cart-btn') as HTMLButtonElement
@@ -102,9 +106,20 @@ const { showLine = false } = Astro.props
   const cartWrapper = $('#cart-wrapper') as HTMLDivElement
 
   const cartContainer = $('#cart-container') as HTMLDivElement
+  const cartSize = $('#cart-size') as HTMLHeadingElement
+  const cartTotal = $('#cart-total') as HTMLParagraphElement
+  const cartClear = $('#cart-clear-btn') as HTMLButtonElement
+  const cartItems = $('#cart-items') as HTMLDivElement
 
   let isMenuClosed = menuWrapper.classList.contains('opacity-0')
   let isCartClosed = cartWrapper.classList.contains('opacity-0')
+
+  const createEmptyElement = () => {
+    const emptyCart = document.createElement('p')
+    emptyCart.textContent = 'There are no items in your cart.'
+    emptyCart.classList.add('text-[0.938rem]', 'm-auto', 'text-dark/40')
+    return emptyCart
+  }
 
   const toggleMenu = () => {
     if (!isCartClosed) toggleCart()
@@ -125,6 +140,17 @@ const { showLine = false } = Astro.props
     if (!isMenuClosed) toggleMenu()
 
     if (isCartClosed) {
+      const { cart } = store.get()
+      const size = cart.length
+      const total = cart.reduce((acc, product) => acc + product.price, 0)
+
+      cartSize.textContent = `Cart (${size})`
+      cartTotal.textContent = formatPrice(total)
+
+      if (size === 0) {
+        cartItems.replaceChildren(createEmptyElement())
+      }
+
       cartWrapper.classList.remove('opacity-0', 'invisible')
       document.body.classList.add('overflow-hidden')
       isCartClosed = false
@@ -136,8 +162,17 @@ const { showLine = false } = Astro.props
     isCartClosed = true
   }
 
+  const clearCartItems = () => {
+    cartSize.textContent = 'Cart (0)'
+    cartTotal.textContent = formatPrice(0)
+    cartItems.replaceChildren(createEmptyElement())
+    store.clear()
+  }
+
   menuBtn.addEventListener('click', toggleMenu)
   cartBtn.addEventListener('click', toggleCart)
+
+  cartClear.addEventListener('click', clearCartItems)
 
   menuWrapper.addEventListener('click', toggleMenu)
   cartWrapper.addEventListener('click', toggleCart)
