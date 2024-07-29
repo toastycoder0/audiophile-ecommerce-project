@@ -1,15 +1,9 @@
+import type { StateProduct } from '@/types/product'
+
 const CART_STORE_KEY = 'cart-store'
 
-interface Product {
-  id: string
-  name: string
-  image: string
-  price: number
-  quantity: number
-}
-
 interface Store {
-  cart: Product[]
+  cart: StateProduct[]
 }
 
 const INITIAL_STATE: Store = {
@@ -25,14 +19,14 @@ const set = (store: Store) => {
   window.localStorage.setItem(CART_STORE_KEY, JSON.stringify(store))
 }
 
-const add = (newProduct: Product) => {
+const add = (newProduct: StateProduct) => {
   const store = get()
   const { cart } = store
 
   const productExist = cart.find((product) => product.id === newProduct.id)
 
   if (productExist) {
-    productExist.quantity += 1
+    productExist.quantity += newProduct.quantity
     set(store)
     return
   }
