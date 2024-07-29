@@ -78,14 +78,7 @@ const { showLine = false } = Astro.props
         </button>
       </section>
 
-      <section id='cart-items' class='grow flex gap-6 flex-col overflow-y-auto'>
-        <!-- <div id='cart-product' class='flex gap-4 items-center'>
-          <img class='w-16 h-16 rounded-lg' src='' alt='' />
-          <div class='font-bold grow'>
-            <h3 class='uppercase text-[0.938rem] line-clamp-1'>XX99 MK II</h3>
-            <p class='text-sm text-dark/50'>$2000</p>
-          </div>
-        </div> -->
+      <section id='cart-items' class='grow flex gap-6 flex-col overflow-y-auto overflow-x-hidden'>
       </section>
 
       <section>
@@ -121,6 +114,17 @@ const { showLine = false } = Astro.props
   let isMenuClosed = menuWrapper.classList.contains('opacity-0')
   let isCartClosed = cartWrapper.classList.contains('opacity-0')
 
+  const updateCartStats = () => {
+    const { cart } = store.get()
+    const size = cart.reduce((acc, product) => acc + product.quantity, 0)
+    const total = cart.reduce((acc, product) => acc + product.price * product.quantity, 0)
+
+    cartSize.textContent = `Cart (${size})`
+    cartTotal.textContent = formatPrice(total)
+
+    return { size, total, cart }
+  }
+
   const createEmptyElement = () => {
     const emptyCart = document.createElement('p')
     emptyCart.textContent = 'There are no items in your cart.'
@@ -129,11 +133,12 @@ const { showLine = false } = Astro.props
   }
 
   const createCartItem = (product: StateProduct) => {
-    const { name, image, price } = product
+    const { id, name, image, price, quantity } = product
 
     const cartItem = document.createElement('div')
     cartItem.id = 'cart-product'
     cartItem.classList.add('flex', 'gap-4', 'items-center')
+    cartItem.dataset.id = id
 
     const cartItemImage = document.createElement('img')
     cartItemImage.classList.add('w-16', 'h-16', 'rounded-lg')
@@ -142,20 +147,66 @@ const { showLine = false } = Astro.props
 
     const cartItemInfo = document.createElement('div')
     cartItemInfo.classList.add('font-bold', 'grow')
-
     const cartItemName = document.createElement('h3')
     cartItemName.classList.add('uppercase', 'text-[0.938rem]', 'line-clamp-1')
-    cartItemName.textContent = name
+    cartItemName.textContent = name.split(' ')[0]
 
     const cartItemPrice = document.createElement('p')
     cartItemPrice.classList.add('text-sm', 'text-dark/50')
     cartItemPrice.textContent = formatPrice(price)
+
+    const cartItemQuantityContainer = document.createElement('div')
+    cartItemQuantityContainer.classList.add(
+      'bg-low-gray',
+      'relative',
+      'h-8',
+      'min-w-24',
+      'flex',
+      'items-center',
+      'justify-between',
+      'py-2',
+      'px-2.5'
+    )
+
+    const cartItemQuantity = document.createElement('p')
+    cartItemQuantity.id = 'cart-product-quantity'
+    cartItemQuantity.classList.add('font-bold', 'text-[0.813rem]')
+    cartItemQuantity.textContent = quantity.toString()
+
+    const cartItemQuantityMinusBtn = document.createElement('button')
+    cartItemQuantityMinusBtn.classList.add('font-bold', 'text-[0.813rem]', 'text-center', 'w-4')
+    cartItemQuantityMinusBtn.textContent = '-'
+
+    const cartItemQuantityPlusBtn = document.createElement('button')
+    cartItemQuantityPlusBtn.classList.add('font-bold', 'text-[0.813rem]', 'text-center', 'w-4')
+    cartItemQuantityPlusBtn.textContent = '+'
+
+    cartItemQuantityContainer.appendChild(cartItemQuantityMinusBtn)
+    cartItemQuantityContainer.appendChild(cartItemQuantity)
+    cartItemQuantityContainer.appendChild(cartItemQuantityPlusBtn)
 
     cartItemInfo.appendChild(cartItemName)
     cartItemInfo.appendChild(cartItemPrice)
 
     cartItem.appendChild(cartItemImage)
     cartItem.appendChild(cartItemInfo)
+    cartItem.appendChild(cartItemQuantityContainer)
+
+    const changeCurrentQuantity = (quantityToAdd: number) => {
+      const newQuantity = Number(cartItemQuantity.textContent) + quantityToAdd
+      if (newQuantity < 1) {
+        store.remove(id)
+        cartItems.removeChild(cartItem)
+      } else {
+        cartItemQuantity.textContent = newQuantity.toString()
+        store.quantity(id, newQuantity)
+      }
+      const { size } = updateCartStats()
+      if (size === 0) cartItems.replaceChildren(createEmptyElement())
+    }
+
+    cartItemQuantityMinusBtn.addEventListener('click', () => changeCurrentQuantity(-1))
+    cartItemQuantityPlusBtn.addEventListener('click', () => changeCurrentQuantity(1))
 
     return cartItem
   }
@@ -179,12 +230,7 @@ const { showLine = false } = Astro.props
     if (!isMenuClosed) toggleMenu()
 
     if (isCartClosed) {
-      const { cart } = store.get()
-      const size = cart.reduce((acc, product) => acc + product.quantity, 0)
-      const total = cart.reduce((acc, product) => acc + product.price * product.quantity, 0)
-
-      cartSize.textContent = `Cart (${size})`
-      cartTotal.textContent = formatPrice(total)
+      const { cart, size } = updateCartStats()
 
       if (size === 0) {
         cartItems.replaceChildren(createEmptyElement())
