@@ -2,6 +2,7 @@
 import RootLayout from '@/components/layouts/RootLayout.astro'
 import Navbar from '@/components/shared/Navbar.astro'
 import ProductHeader from '@/components/sections/product/ProductHeader.astro'
+import Features from '@/components/sections/product/Features.astro'
 import Categories from '@/components/sections/shared/Categories.astro'
 import AudioGear from '@/components/sections/shared/AudioGear.astro'
 import Footer from '@/components/sections/shared/Footer.astro'
@@ -27,6 +28,7 @@ const { name, description } = product
   <div class='px-6 pt-[5.625rem] flex flex-col mb-[7.5rem] md:px-10 lg:mb-[10rem] lg:pt-24'>
     <ProductHeader {...product} />
     <main class='w-full flex flex-col gap-[7.5rem] max-w-container mx-auto lg:gap-[10rem]'>
+      <Features {...product} />
       <Categories />
       <AudioGear />
     </main>

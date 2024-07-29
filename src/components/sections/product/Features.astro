@@ -1,0 +1,32 @@
+---
+import type { Product } from '@/types/product'
+
+interface Props extends Pick<Product, 'features' | 'includes'> {}
+
+const { features, includes } = Astro.props
+---
+
+<section class='flex flex-col gap-20 lg:flex-row xl:gap-[7.813rem]'>
+  <div class='lg:max-w-[39rem]'>
+    <h2 class='font-bold text-2xl uppercase mb-6 md:text-[2rem] md:mt-8 lg:mb-8 lg:mt-0'>
+      Features
+    </h2>
+    <p class='text-[0.938rem] text-dark/50 font-medium whitespace-pre-wrap'>{features}</p>
+  </div>
+
+  <div class='md:flex md:items-start lg:flex-col lg:grow'>
+    <h2 class='font-bold text-2xl uppercase mb-6 md:text-[2rem] lg:mb-8'>In the box</h2>
+    <ul
+      class='text-[0.938rem] font-medium flex flex-col gap-2 md:ml-auto md:w-1/2 lg:w-auto lg:ml-0'
+    >
+      {
+        includes.map(({ item, quantity }) => (
+          <li>
+            <span class='text-orange font-bold'>{quantity}x</span>
+            <span class='ml-6 text-dark/50'>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
