@@ -1,0 +1,111 @@
+---
+import 'notyf/notyf.min.css'
+import type { Product } from '@/types/product'
+import Back from '@/components/shared/Back.astro'
+import Button from '@/components/shared/Button.astro'
+import { formatPrice } from '@/utils/text'
+
+interface Props extends Pick<Product, 'name' | 'description' | 'image' | 'price' | 'new' | 'id'> {}
+
+const { name, description, image, price, new: isNew, id } = Astro.props
+---
+
+<header class='w-full max-w-container mx-auto mt-4 mb-[7.5rem] md:mt-8 lg:mt-20 lg:mb-[10rem]'>
+  <Back />
+
+  <section
+    class='flex flex-col items-center gap-8 mt-6 md:flex-row md:items-center md:gap-[4.25rem] lg:mt-14 xl:gap-[7.75rem]'
+  >
+    <picture>
+      <source srcset={image.desktop} media='(min-width: 1024px)' />
+      <source srcset={image.tablet} media='(min-width: 540px)' />
+      <img
+        id='product-image'
+        data-src={image.mobile}
+        class='w-full md:min-w-[17.5rem] xl:min-w-[33.75rem]'
+        src={image.mobile}
+        alt={`${name} product`}
+      />
+    </picture>
+
+    <div>
+      {isNew && <span class='text-orange text-sm uppercase tracking-[0.625rem]'>New product</span>}
+      <h1
+        data-id={id}
+        class='my-6 font-bold uppercase text-[1.75rem] md:mt-4 md:mb-8 xl:text-[2.5rem] xl:leading-[2.75rem]'
+      >
+        {name}
+      </h1>
+      <p class='text-[0.938rem] text-dark/50 font-medium'>{description}</p>
+      <p id='price' data-price={price} class='mt-6 mb-8 text-lg font-bold md:my-8 xl:mb-11'>
+        {formatPrice(price)}
+      </p>
+      <div class='flex items-center gap-4'>
+        <div class='w-[7.5rem] h-[3.251rem] relative flex justify-between px-4 bg-low-gray'>
+          <button
+            id='minus-btn'
+            class='font-bold text-dark/25 duration-200 hover:text-orange focus-visible:text-orange'
+          >
+            -
+          </button>
+          <p
+            id='product-quantity'
+            class='absolute font-bold left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2'
+          >
+            1
+          </p>
+          <button
+            id='plus-btn'
+            class='font-bold text-dark/25 duration-200 hover:text-orange focus-visible:text-orange'
+          >
+            +
+          </button>
+        </div>
+        <Button id='add-to-cart-btn'>Add to cart</Button>
+      </div>
+    </div>
+  </section>
+</header>
+
+<script>
+  import { Notyf } from 'notyf'
+  import { $ } from '@/utils/dom'
+  import store from '@/store/cartStore'
+
+  const minusBtn = $('#minus-btn') as HTMLButtonElement
+  const plusBtn = $('#plus-btn') as HTMLButtonElement
+  const productQuantity = $('#product-quantity') as HTMLParagraphElement
+
+  const name = $('h1') as HTMLHeadingElement
+  const price = $('#price') as HTMLParagraphElement
+  const image = $('#product-image') as HTMLImageElement
+
+  const addToCartBtn = $('#add-to-cart-btn') as HTMLButtonElement
+  const toast = new Notyf()
+
+  let quantity = 1
+
+  const changeQuantity = (quantityToAdd: number) => {
+    const newQuantity = quantity + quantityToAdd
+    if (newQuantity < 1) return
+    quantity = newQuantity
+    productQuantity.textContent = quantity.toString()
+  }
+
+  minusBtn.addEventListener('click', () => changeQuantity(-1))
+  plusBtn.addEventListener('click', () => changeQuantity(1))
+  addToCartBtn.addEventListener('click', () => {
+    store.add({
+      id: name.dataset.id ?? '',
+      name: name.textContent?.trim() ?? '',
+      image: image.dataset.src ?? '',
+      price: Number(price.dataset.price ?? 0),
+      quantity
+    })
+
+    quantity = 1
+    productQuantity.textContent = quantity.toString()
+
+    toast.success('Product added to cart')
+  })
+</script>
