@@ -1,0 +1,44 @@
+---
+import type { Gallery } from '@/types/product'
+
+interface Props {
+  gallery: Gallery
+  name: string
+}
+
+const { gallery, name } = Astro.props
+---
+
+<section class='flex flex-col gap-5 md:flex-row xl:gap-[1.875rem]'>
+  <div class='flex flex-col gap-5 md:justify-between xl:gap-8'>
+    <picture>
+      <source srcset={gallery.first.desktop} media='(min-width: 1024px)' />
+      <source srcset={gallery.first.tablet} media='(min-width: 540px)' />
+      <img
+        class='flex rounded-lg w-full'
+        src={gallery.first.mobile}
+        alt={`${name} product gallery 1`}
+      />
+    </picture>
+
+    <picture>
+      <source srcset={gallery.second.desktop} media='(min-width: 1024px)' />
+      <source srcset={gallery.second.tablet} media='(min-width: 540px)' />
+      <img
+        class='flex rounded-lg w-full'
+        src={gallery.second.mobile}
+        alt={`${name} product gallery 2`}
+      />
+    </picture>
+  </div>
+
+  <picture>
+    <source srcset={gallery.third.desktop} media='(min-width: 1024px)' />
+    <source srcset={gallery.third.tablet} media='(min-width: 540px)' />
+    <img
+      class='flex rounded-lg w-full md:min-w-[24.688rem] xl:min-w-[39.688rem]'
+      src={gallery.third.mobile}
+      alt={`${name} product gallery 3`}
+    />
+  </picture>
+</section>
