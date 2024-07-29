@@ -36,3 +36,11 @@ export interface Product {
   gallery: Gallery
   others: Other[]
 }
+
+export interface StateProduct {
+  id: string
+  name: string
+  image: string
+  price: number
+  quantity: number
+}
