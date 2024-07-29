@@ -66,7 +66,7 @@ const { showLine = false } = Astro.props
   <div class='w-full max-w-container mx-auto flex pt-6 md:pt-8'>
     <div
       id='cart-container'
-      class='w-full max-w-[23.563rem] h-[30.5rem] ml-auto flex flex-col gap-8 bg-white rounded-lg py-8 px-7 md:px-8'
+      class='w-full max-w-[23.563rem] h-[30.5rem] ml-auto flex flex-col gap-7 bg-white rounded-lg py-8 px-7 md:px-8'
     >
       <section class='flex items-center justify-between'>
         <h3 id='cart-size' class='text-lg font-bold uppercase'>Cart (0)</h3>
@@ -78,12 +78,18 @@ const { showLine = false } = Astro.props
         </button>
       </section>
 
-      <section id='cart-items' class='grow flex flex-col'>
-        <p class='text-[0.938rem] m-auto text-dark/40'>There are no items in your cart.</p>
+      <section id='cart-items' class='grow flex gap-6 flex-col overflow-y-auto'>
+        <!-- <div id='cart-product' class='flex gap-4 items-center'>
+          <img class='w-16 h-16 rounded-lg' src='' alt='' />
+          <div class='font-bold grow'>
+            <h3 class='uppercase text-[0.938rem] line-clamp-1'>XX99 MK II</h3>
+            <p class='text-sm text-dark/50'>$2000</p>
+          </div>
+        </div> -->
       </section>
 
       <section>
-        <div class='flex items-center justify-between mb-6'>
+        <div class='flex items-center justify-between mb-5'>
           <h3 class='text-[0.938rem] text-dark/50 font-medium uppercase'>Total</h3>
           <p id='cart-total' class='font-bold text-lg'>$0</p>
         </div>
@@ -95,6 +101,7 @@ const { showLine = false } = Astro.props
 </div>
 
 <script>
+  import type { StateProduct } from '@/types/product'
   import { $ } from '@/utils/dom'
   import { formatPrice } from '@/utils/text'
   import store from '@/store/cartStore'
@@ -119,6 +126,38 @@ const { showLine = false } = Astro.props
     emptyCart.textContent = 'There are no items in your cart.'
     emptyCart.classList.add('text-[0.938rem]', 'm-auto', 'text-dark/40')
     return emptyCart
+  }
+
+  const createCartItem = (product: StateProduct) => {
+    const { name, image, price } = product
+
+    const cartItem = document.createElement('div')
+    cartItem.id = 'cart-product'
+    cartItem.classList.add('flex', 'gap-4', 'items-center')
+
+    const cartItemImage = document.createElement('img')
+    cartItemImage.classList.add('w-16', 'h-16', 'rounded-lg')
+    cartItemImage.src = image
+    cartItemImage.alt = `${name} product`
+
+    const cartItemInfo = document.createElement('div')
+    cartItemInfo.classList.add('font-bold', 'grow')
+
+    const cartItemName = document.createElement('h3')
+    cartItemName.classList.add('uppercase', 'text-[0.938rem]', 'line-clamp-1')
+    cartItemName.textContent = name
+
+    const cartItemPrice = document.createElement('p')
+    cartItemPrice.classList.add('text-sm', 'text-dark/50')
+    cartItemPrice.textContent = formatPrice(price)
+
+    cartItemInfo.appendChild(cartItemName)
+    cartItemInfo.appendChild(cartItemPrice)
+
+    cartItem.appendChild(cartItemImage)
+    cartItem.appendChild(cartItemInfo)
+
+    return cartItem
   }
 
   const toggleMenu = () => {
@@ -149,6 +188,10 @@ const { showLine = false } = Astro.props
 
       if (size === 0) {
         cartItems.replaceChildren(createEmptyElement())
+      } else {
+        cartItems.replaceChildren('')
+        const items = cart.map((product) => createCartItem(product))
+        items.forEach((item) => cartItems.appendChild(item))
       }
 
       cartWrapper.classList.remove('opacity-0', 'invisible')
