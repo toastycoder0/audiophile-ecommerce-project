@@ -1,0 +1,30 @@
+---
+import type { Other } from '@/types/product'
+import Button from '@/components/shared/Button.astro'
+
+interface Props {
+  others: Other[]
+}
+
+const { others } = Astro.props
+---
+
+<ul class='grid gap-14 md:grid-cols-3 md:gap-3 lg:gap-[1.875rem]'>
+  {
+    others.map(({ name, image, slug }) => (
+      <li>
+        <picture>
+          <source srcset={image.desktop} media='(min-width: 1024px)' />
+          <source srcset={image.tablet} media='(min-width: 540px)' />
+          <img class='w-full' src={image.mobile} alt={`${name} product`} />
+        </picture>
+
+        <h3 class='uppercase line-clamp-1 font-bold text-2xl text-center my-8 md:mt-10'>{name}</h3>
+
+        <Button class='mx-auto' href={`/product/${slug}`}>
+          See product
+        </Button>
+      </li>
+    ))
+  }
+</ul>
