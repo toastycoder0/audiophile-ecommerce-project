@@ -1,21 +1,21 @@
-interface Image {
+export interface Image {
   mobile: string
   tablet: string
   desktop: string
 }
 
-interface Item {
+export interface Item {
   quantity: number
   item: string
 }
 
-interface Gallery {
+export interface Gallery {
   first: Image
   second: Image
   third: Image
 }
 
-interface Other {
+export interface Other {
   slug: string
   name: string
   image: Image
